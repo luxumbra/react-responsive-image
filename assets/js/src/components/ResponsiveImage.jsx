@@ -133,8 +133,8 @@ class ResponsiveImage extends React.Component {
     let currentImageSize;
     const { children } = this.props;
     const windowSize = {
-      width: window.innerWidth,
-      height: window.innerHeight
+      width: typeof document !== "undefined" ? window.innerWidth : "",
+      height: typeof document !== "undefined" ? window.innerHeight : ""
     };
 
     for (let i = 0; i < children.length; i++) {
