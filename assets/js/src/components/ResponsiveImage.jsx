@@ -1,14 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 class ResponsiveImage extends React.Component {
   constructor(props) {
     super(props);
 
-
     // used by React as the component name
-    this.displayName = 'ResponsiveImage';
-
+    this.displayName = "ResponsiveImage";
 
     // bind 'this' to functions
     this.getInitialSize = this.getInitialSize.bind(this);
@@ -16,28 +14,26 @@ class ResponsiveImage extends React.Component {
     this.getCurrentSizeClone = this.getCurrentSizeClone.bind(this);
     this.loadImage = this.loadImage.bind(this);
 
-
     // initial state object
     this.state = {
       currentImageSize: this.getInitialSize(),
       loadInitiated: false,
       windowSize: {
         width: 0,
-        height: 0,
-      },
+        height: 0
+      }
     };
   }
-
 
   /**
    * Called after component mounts to DOM
    * @returns {undefined} undefined
    */
   componentDidMount() {
-    window.addEventListener('resize', this.onResize);
+    if (typeof window !== "undefined")
+      window.addEventListener("resize", this.onResize);
     this.onResize();
   }
-
 
   /**
    * Called after component updates, checks to see if the loadImage prop
@@ -53,15 +49,14 @@ class ResponsiveImage extends React.Component {
     }
   }
 
-
   /**
    * Called before component is removed from the DOM
    * @returns {undefined} undefined
    */
   componentWillUnmount() {
-    window.removeEventListener('resize', this.onResize);
+    if (typeof window !== "undefined")
+      window.removeEventListener("resize", this.onResize);
   }
-
 
   /**
    * Renders component
@@ -70,17 +65,11 @@ class ResponsiveImage extends React.Component {
   render() {
     const { className } = this.props;
     const currentSizeClone = this.getCurrentSizeClone();
-    const additionalClass = className ?
-      ` ${className}` : '';
+    const additionalClass = className ? ` ${className}` : "";
     const newClassName = `component-responsive-image${additionalClass}`;
 
-    return (
-      <div className={newClassName}>
-        {currentSizeClone}
-      </div>
-    );
+    return <div className={newClassName}>{currentSizeClone}</div>;
   }
-
 
   /**
    * Gets the initial size
@@ -103,7 +92,6 @@ class ResponsiveImage extends React.Component {
     return initialSize;
   }
 
-
   /**
    * Returns a clone of the current image size with added props
    * @returns {undefined} undefined
@@ -116,19 +104,15 @@ class ResponsiveImage extends React.Component {
       loadImage,
       onLoad,
       preloadBackground,
-      imageStyle,
+      imageStyle
     } = this.props;
 
-    const {
-      currentImageSize,
-      loadInitiated,
-      windowSize,
-    } = this.state;
+    const { currentImageSize, loadInitiated, windowSize } = this.state;
 
     return React.cloneElement(currentImageSize, {
       alt,
       background,
-      key: 'image-size-' + currentImageSize.props.minWidth,
+      key: "image-size-" + currentImageSize.props.minWidth,
       lazy,
       loadInitiated,
       loadImage,
@@ -136,10 +120,9 @@ class ResponsiveImage extends React.Component {
       preloadBackground,
       ref: cis => (this.currentImageSize = cis),
       imageStyle,
-      windowSize,
+      windowSize
     });
   }
-
 
   /**
    * Resize handler
@@ -149,8 +132,8 @@ class ResponsiveImage extends React.Component {
     let currentImageSize;
     const { children } = this.props;
     const windowSize = {
-      width: window.innerWidth,
-      height: window.innerHeight,
+      width: typeof window !== "undefined" ? window.innerWidth : 1280,
+      height: typeof window !== "undefined" ? window.innerHeight : 800
     };
 
     for (let i = 0; i < children.length; i++) {
@@ -163,7 +146,7 @@ class ResponsiveImage extends React.Component {
 
     this.setState({
       windowSize,
-      currentImageSize,
+      currentImageSize
     });
   }
 
@@ -176,7 +159,6 @@ class ResponsiveImage extends React.Component {
     this.currentImageSize.preloadImage();
   }
 }
-
 
 /**
  * Expected propTypes
@@ -195,16 +177,13 @@ class ResponsiveImage extends React.Component {
 ResponsiveImage.propTypes = {
   alt: PropTypes.string,
   background: PropTypes.bool,
-  children: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.object,
-  ]),
+  children: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   className: PropTypes.string,
   imageStyle: PropTypes.object,
   lazy: PropTypes.bool,
   loadImage: PropTypes.bool,
   onLoad: PropTypes.func,
-  preloadBackground: PropTypes.bool,
+  preloadBackground: PropTypes.bool
 };
 
 export default ResponsiveImage;
