@@ -30,7 +30,7 @@ class ResponsiveImage extends React.Component {
    * @returns {undefined} undefined
    */
   componentDidMount() {
-    if (typeof document !== "undefined")
+    if (typeof window !== "undefined")
       window.addEventListener("resize", this.onResize);
 
     this.onResize();
@@ -55,7 +55,7 @@ class ResponsiveImage extends React.Component {
    * @returns {undefined} undefined
    */
   componentWillUnmount() {
-    if (typeof document !== "undefined")
+    if (typeof window !== "undefined")
       window.removeEventListener("resize", this.onResize);
   }
 
@@ -133,8 +133,8 @@ class ResponsiveImage extends React.Component {
     let currentImageSize;
     const { children } = this.props;
     const windowSize = {
-      width: typeof document !== "undefined" ? window.innerWidth : "",
-      height: typeof document !== "undefined" ? window.innerHeight : ""
+      width: typeof window !== "undefined" ? window.innerWidth : "",
+      height: typeof window !== "undefined" ? window.innerHeight : ""
     };
 
     for (let i = 0; i < children.length; i++) {
